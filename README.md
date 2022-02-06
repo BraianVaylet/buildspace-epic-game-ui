@@ -1,8 +1,8 @@
 <p align="center" width="200">
-   <img align="center" width="100" src="https://raw.githubusercontent.com/BraianVaylet/buildspace-epic-nfts-ui/main/public/dragon2.png" />   
+   <img align="center" width="100" src="https://raw.githubusercontent.com/BraianVaylet/buildspace-epic-game-ui/main/public/wizard.png" />   
 </p>
 
-# 🐲 Epic NFTs [UI]
+# 🧙‍♂️ Epic Game [UI]
 
 El proyecto se encuentra deployado en Vercel para que puedan verlo e interactuar con él, toda crítica o comentario se agradece, pueden acceder a la demo en el siguiente link:
 
@@ -10,7 +10,7 @@ El proyecto se encuentra deployado en Vercel para que puedan verlo e interactuar
 
 Este proyecto consume un smart-contract desarrollado en Solidity utilizando el framework HardHat, pueden encontrar el repositorio en el siguiente link:
 
-### [REPO SMART-CONTRACT](https://github.com/BraianVaylet/buildspace-epic-nfts)
+### [REPO SMART-CONTRACT](https://github.com/BraianVaylet/buildspace-epic-game)
 
 ## Sobre el proyecto:
 
