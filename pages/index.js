@@ -3,40 +3,29 @@ import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { ethers } from 'ethers'
 import { Button, Flex, Text, Spinner, useToast, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, Link, Accordion, AccordionItem, AccordionButton, AccordionIcon, Box, AccordionPanel } from '@chakra-ui/react'
-import myEpicNft from '../utils/MyEpicNFT.json'
-import Layout from '../components/Layout'
-import SelectCharacter from '../components/SelectCharacter'
+import Layout from 'components/Layout'
+import SelectCharacter from 'components/SelectCharacter'
+import CONTRACT from 'utils/constants'
 
-// > Nuestra direccion del contrato que desplegamos.
-const CONTRACT_ADDRESS = '0x9a59CFc34ABED8FDE5989892A1D2B75235d14b14'
-// > Nuestro abi del contrato
-const contractABI = myEpicNft.abi
+const CONTRACT_ADDRESS = CONTRACT.MY_EPIC_GAME.ADDRESS // > Nuestra direccion del contrato que desplegamos.
+const contractABI = CONTRACT.MY_EPIC_GAME.ABI // > Nuestro abi del contrato
 
 export default function Home () {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = useToast()
   const [loader] = useState(false)
   const [newTokenId, setNewTokenId] = useState(null)
-  const [totalSupply, setTotalSupply] = useState(0) // Almacenamos el total de NFTs que se podra mintear.
-  const [currentSupply, setCurrentSupply] = useState(0) // Almacenamos total actual de NFTs minteados
   const [currentAccount, setCurrentAccount] = useState('') // Almacenamos la billetera pública de nuestro usuario.
   const [characterNFT, setCharacterNFT] = useState(null)
   const [chainIdOk, setChainIdOk] = useState(false)
 
-  console.log('totalSupply', totalSupply)
-  console.log('currentSupply', currentSupply)
-
-  const checkIfChainIsCorrect = async () => {
+  const checkNetwork = async () => {
     try {
-      const { ethereum } = window
-      // > Comprobamos si estamos en la red correcta
-      const chainId = await ethereum.request({ method: 'eth_chainId' })
-      const rinkebyChainId = '0x4'
-      if (chainId !== rinkebyChainId) {
+      if (window.ethereum.networkVersion !== '4') {
         setChainIdOk(false)
         toast({
-          title: 'Red incorrecta.',
-          description: '¡No está conectado a Rinkeby Test Network!.',
+          title: 'Wrong network.',
+          description: 'You are not connected to the Rinkeby testnet!.',
           status: 'error',
           duration: 9000,
           isClosable: true
@@ -45,7 +34,7 @@ export default function Home () {
         setChainIdOk(true)
       }
     } catch (error) {
-      console.log(new Error(error))
+      console.log(error)
     }
   }
 
@@ -76,7 +65,7 @@ export default function Home () {
         // > Escucho eventos! caso en que un usuario llega a nuestro sitio y YA tenía su billetera conectada + autorizada.
         setupEventListener()
         // > check de la red
-        checkIfChainIsCorrect()
+        checkNetwork()
       } else {
         console.log('No authorized account found')
         toast({
@@ -115,7 +104,7 @@ export default function Home () {
       // > Escucho evenots! caso en que un usuario ingresa a nuestro sitio y conecta su billetera por primera vez.
       setupEventListener()
       // > check de la red
-      checkIfChainIsCorrect()
+      checkNetwork()
     } catch (error) {
       console.log(new Error(error))
     }
@@ -129,7 +118,7 @@ export default function Home () {
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum)
         const signer = provider.getSigner()
-        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer)
+        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT.MY_EPIC_GAME.ABI, signer)
 
         // > Capturo el evento
         connectedContract.on('NewEpicNFTMinted', (from, tokenId) => {
@@ -181,35 +170,8 @@ export default function Home () {
     }
   }
 
-  // const askContractToMintNft = async () => {
-  //   try {
-  //     const { ethereum } = window
-
-  //     if (ethereum) {
-  //       // > Un "provider" es lo que usamos para comunicarnos con los nodos de Ethereum.
-  //       // En este caso usamos nodos que Metamask proporciona en segundo plano para enviar/recibir datos de nuestro contrato implementado.
-  //       const provider = new ethers.providers.Web3Provider(ethereum)
-  //       // > info: https://docs.ethers.io/v5/api/signer/#signers
-  //       const signer = provider.getSigner()
-  //       // > Crea la conexión con nuestro contrato
-  //       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer)
-
-  //       console.log('Going to pop wallet now to pay gas...')
-  //       const nftTxn = await connectedContract.makeAnEpicNFT()
-  //       setLoader(true)
-  //       console.log('Mining...please wait.')
-  //       await nftTxn.wait()
-  //       setLoader(false)
-  //       // console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`)
-  //     } else {
-  //       console.log("Ethereum object doesn't exist!")
-  //     }
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
   useEffect(() => {
+    checkNetwork()
     checkIfWalletIsConnected()
     getTotalEpicNFTs()
     getCurrentTotalEpicNFTs()

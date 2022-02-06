@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import { Flex, Icon, IconButton, Image, Link, Text, Tooltip, useColorMode } from '@chakra-ui/react'
-import LOGO from '../public/wizard.png'
 import { FaEthereum, FaGithub, FaLinkedin, FaWallet } from 'react-icons/fa'
+import { Flex, Icon, IconButton, Image, Link, Text, Tooltip, useColorMode } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
+import LOGO from 'public/wizard.png'
 
 const Layout = ({ contract, head, chain, address, children }) => {
   const { colorMode, toggleColorMode } = useColorMode()
