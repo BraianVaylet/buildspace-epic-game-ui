@@ -15,7 +15,7 @@ const contractABI = myEpicNft.abi
 export default function Home () {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = useToast()
-  const [loader, setLoader] = useState(false)
+  const [loader] = useState(false)
   const [newTokenId, setNewTokenId] = useState(null)
   const [totalSupply, setTotalSupply] = useState(0) // Almacenamos el total de NFTs que se podra mintear.
   const [currentSupply, setCurrentSupply] = useState(0) // Almacenamos total actual de NFTs minteados
@@ -181,33 +181,33 @@ export default function Home () {
     }
   }
 
-  const askContractToMintNft = async () => {
-    try {
-      const { ethereum } = window
+  // const askContractToMintNft = async () => {
+  //   try {
+  //     const { ethereum } = window
 
-      if (ethereum) {
-        // > Un "provider" es lo que usamos para comunicarnos con los nodos de Ethereum.
-        // En este caso usamos nodos que Metamask proporciona en segundo plano para enviar/recibir datos de nuestro contrato implementado.
-        const provider = new ethers.providers.Web3Provider(ethereum)
-        // > info: https://docs.ethers.io/v5/api/signer/#signers
-        const signer = provider.getSigner()
-        // > Crea la conexión con nuestro contrato
-        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer)
+  //     if (ethereum) {
+  //       // > Un "provider" es lo que usamos para comunicarnos con los nodos de Ethereum.
+  //       // En este caso usamos nodos que Metamask proporciona en segundo plano para enviar/recibir datos de nuestro contrato implementado.
+  //       const provider = new ethers.providers.Web3Provider(ethereum)
+  //       // > info: https://docs.ethers.io/v5/api/signer/#signers
+  //       const signer = provider.getSigner()
+  //       // > Crea la conexión con nuestro contrato
+  //       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer)
 
-        console.log('Going to pop wallet now to pay gas...')
-        const nftTxn = await connectedContract.makeAnEpicNFT()
-        setLoader(true)
-        console.log('Mining...please wait.')
-        await nftTxn.wait()
-        setLoader(false)
-        // console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`)
-      } else {
-        console.log("Ethereum object doesn't exist!")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //       console.log('Going to pop wallet now to pay gas...')
+  //       const nftTxn = await connectedContract.makeAnEpicNFT()
+  //       setLoader(true)
+  //       console.log('Mining...please wait.')
+  //       await nftTxn.wait()
+  //       setLoader(false)
+  //       // console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`)
+  //     } else {
+  //       console.log("Ethereum object doesn't exist!")
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   useEffect(() => {
     checkIfWalletIsConnected()
@@ -261,7 +261,7 @@ export default function Home () {
             Welcome to Epic Game 🧙‍♂️
           </Text>
 
-          {/* <Accordion w={'100%'} defaultIndex={[0]} allowMultiple>
+          <Accordion w={'100%'} defaultIndex={[0]} allowMultiple>
             <AccordionItem>
               <h2>
                 <AccordionButton>
@@ -277,12 +277,10 @@ export default function Home () {
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={4}>
-                <Text fontSize={20}>This project allows you to connect your Metamask wallet and mint an NFT in it. This NFT will be yours alone, you can even resell the NFT on OpenSea or Rarible.</Text>
-                <Text fontSize={20}>NFTs are composed of a word that is randomly generated between an animal, a profession and an adjective.</Text>
-                <Text fontSize={20}>It is necessary to be connected to the Rinkeby testnet to interact with the platform.</Text>
+                <Text fontSize={20}>Project info...</Text>
               </AccordionPanel>
             </AccordionItem>
-          </Accordion> */}
+          </Accordion>
 
           {/* Conectar billetera */}
           {!currentAccount
