@@ -5,10 +5,10 @@ import { ethers } from 'ethers'
 import { Button, Flex, Text, Spinner, useToast, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, Link, Accordion, AccordionItem, AccordionButton, AccordionIcon, Box, AccordionPanel } from '@chakra-ui/react'
 import Layout from 'components/Layout'
 import SelectCharacter from 'components/SelectCharacter'
-import CONTRACT from 'utils/constants'
+import CONTRACT, { transformCharacterData } from 'utils/constants'
 
 const CONTRACT_ADDRESS = CONTRACT.MY_EPIC_GAME.ADDRESS // > Nuestra direccion del contrato que desplegamos.
-const contractABI = CONTRACT.MY_EPIC_GAME.ABI // > Nuestro abi del contrato
+const CONTRACT_ABI = CONTRACT.MY_EPIC_GAME.ABI // > Nuestro abi del contrato
 
 export default function Home () {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -63,7 +63,7 @@ export default function Home () {
         console.log('Found an authorized account:', account)
         setCurrentAccount(account)
         // > Escucho eventos! caso en que un usuario llega a nuestro sitio y YA tenía su billetera conectada + autorizada.
-        setupEventListener()
+        // setupEventListener()
         // > check de la red
         checkNetwork()
       } else {
@@ -102,7 +102,7 @@ export default function Home () {
       })
       setCurrentAccount(accounts[0])
       // > Escucho evenots! caso en que un usuario ingresa a nuestro sitio y conecta su billetera por primera vez.
-      setupEventListener()
+      // setupEventListener()
       // > check de la red
       checkNetwork()
     } catch (error) {
@@ -110,72 +110,64 @@ export default function Home () {
     }
   }
 
+  const fetchNFTMetadata = async () => {
+    console.log('Checking for Character NFT on address:', currentAccount)
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const gameContract = new ethers.Contract(
+      CONTRACT_ADDRESS,
+      CONTRACT_ABI,
+      signer
+    )
+
+    const txn = await gameContract.checkIfUserHasNFT()
+    if (txn.name) {
+      console.log('User has character NFT')
+      setCharacterNFT(transformCharacterData(txn))
+    } else {
+      console.log('No character NFT found')
+    }
+  }
+
   // > Funcion que permite escuchar los eventos del contrato.
-  const setupEventListener = async () => {
-    try {
-      const { ethereum } = window
+  // const setupEventListener = async () => {
+  //   try {
+  //     const { ethereum } = window
 
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum)
-        const signer = provider.getSigner()
-        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT.MY_EPIC_GAME.ABI, signer)
+  //     if (ethereum) {
+  //       const provider = new ethers.providers.Web3Provider(ethereum)
+  //       const signer = provider.getSigner()
+  //       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT.MY_EPIC_GAME.ABI, signer)
 
-        // > Capturo el evento
-        connectedContract.on('NewEpicNFTMinted', (from, tokenId) => {
-          setNewTokenId(tokenId.toNumber())
-          onOpen()
-          getCurrentTotalEpicNFTs()
-          console.log(from, tokenId.toNumber())
-        })
-        console.log('Setup event listener!')
-      } else {
-        console.log("Ethereum object doesn't exist!")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const getTotalEpicNFTs = async () => {
-    try {
-      const { ethereum } = window
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum)
-        const signer = provider.getSigner()
-        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer)
-        const total = await connectedContract.getTotalNFTs()
-        setTotalSupply(total.toNumber())
-      } else {
-        console.log("Ethereum object doesn't exist!")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const getCurrentTotalEpicNFTs = async () => {
-    try {
-      const { ethereum } = window
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum)
-        const signer = provider.getSigner()
-        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer)
-        const total = await connectedContract.getCurrentTotalNFTs()
-        setCurrentSupply(total.toNumber())
-      } else {
-        console.log("Ethereum object doesn't exist!")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //       // > Capturo el evento
+  //       connectedContract.on('NewEpicNFTMinted', (from, tokenId) => {
+  //         setNewTokenId(tokenId.toNumber())
+  //         onOpen()
+  //         getCurrentTotalEpicNFTs()
+  //         console.log(from, tokenId.toNumber())
+  //       })
+  //       console.log('Setup event listener!')
+  //     } else {
+  //       console.log("Ethereum object doesn't exist!")
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   useEffect(() => {
     checkNetwork()
     checkIfWalletIsConnected()
-    getTotalEpicNFTs()
-    getCurrentTotalEpicNFTs()
   }, [])
+
+  useEffect(() => {
+    // Corremos esta funcionalidad solo si tenemos nuestra wallet conectada.
+    if (currentAccount) {
+      console.log('CurrentAccount:', currentAccount)
+      fetchNFTMetadata()
+    }
+  }, [currentAccount])
 
   return (
     <Layout
@@ -266,7 +258,11 @@ export default function Home () {
             </Button>
               )
             : currentAccount && !characterNFT && (
-              <SelectCharacter setCharacterNFT={setCharacterNFT} />
+              <SelectCharacter
+                setCharacterNFT={setCharacterNFT}
+                contract={CONTRACT_ADDRESS}
+                abi={CONTRACT_ABI}
+              />
             )
         }
         </Flex>
@@ -302,7 +298,7 @@ export default function Home () {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>🐲 Hey you!</ModalHeader>
+          <ModalHeader>🧙‍♂️ Hey you!</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <Text>Hello! We mint your NFT and send it to your wallet. It may be blank at this time. It may take a maximum of 10 minutes to appear on OpenSea and Rarible.</Text>
