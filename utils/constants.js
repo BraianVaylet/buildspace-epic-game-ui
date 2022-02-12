@@ -2,7 +2,7 @@ import contractJson from 'utils/abis/MyEpicGame.json'
 
 const CONTRACT = {
   MY_EPIC_GAME: {
-    ADDRESS: '0x6e4fCCCB9bC1c7eC0f9F81Da42e3f2DBEC0C7f2d',
+    ADDRESS: '0x30c88A61C096fd55f8C3d4b9597dD63a2774f96B',
     ABI: contractJson.abi
   }
 }
@@ -14,7 +14,17 @@ export const transformCharacterData = (characterData) => {
     hp: characterData.hp.toNumber(),
     maxHp: characterData.maxHp.toNumber(),
     attackDamage: characterData.attackDamage.toNumber(),
-    shield: characterData.shield ? characterData.shield.toNumber() : null
+    shield: characterData.shield.toNumber()
+  }
+}
+
+export const transformBossData = (bossData) => {
+  return {
+    name: bossData.name,
+    imageURI: bossData.imageURI,
+    hp: bossData.hp.toNumber(),
+    maxHp: bossData.maxHp.toNumber(),
+    attackDamage: bossData.attackDamage.toNumber()
   }
 }
 

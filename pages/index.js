@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { ethers } from 'ethers'
-import { Button, Flex, Text, Spinner, useToast, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, Link, Accordion, AccordionItem, AccordionButton, AccordionIcon, Box, AccordionPanel } from '@chakra-ui/react'
+import { Button, Flex, Text, Spinner, useToast, Accordion, AccordionItem, AccordionButton, AccordionIcon, Box, AccordionPanel } from '@chakra-ui/react'
 import Layout from 'components/Layout'
 import SelectCharacter from 'components/SelectCharacter'
 import Arena from 'components/Arena'
@@ -12,10 +12,8 @@ const CONTRACT_ADDRESS = CONTRACT.MY_EPIC_GAME.ADDRESS // > Nuestra direccion de
 const CONTRACT_ABI = CONTRACT.MY_EPIC_GAME.ABI // > Nuestro abi del contrato
 
 export default function Home () {
-  const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = useToast()
   const [loader] = useState(false)
-  const [newTokenId, setNewTokenId] = useState(null)
   const [currentAccount, setCurrentAccount] = useState('') // Almacenamos la billetera pública de nuestro usuario.
   const [characterNFT, setCharacterNFT] = useState(null)
   const [chainIdOk, setChainIdOk] = useState(false)
@@ -309,39 +307,6 @@ export default function Home () {
             )
         }
       </Flex>
-
-      {/* modal */}
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>🧙‍♂️ Hey you!</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <Text>Hello! We mint your NFT and send it to your wallet. It may be blank at this time. It may take a maximum of 10 minutes to appear on OpenSea and Rarible.</Text>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              as={Link}
-              href={`https://rinkeby.rarible.com/token/${CONTRACT_ADDRESS}:${newTokenId}`}
-              isExternal
-              borderRadius={'md'}
-              bgGradient={'linear(to-r, yellow.300, yellow.500)'}
-              color={'white'}
-              mr={3}
-            >
-              Show in Rarible
-            </Button>
-            <Button onClick={() => {
-              onClose()
-              setNewTokenId(null)
-            }}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </Layout>
   )
 }

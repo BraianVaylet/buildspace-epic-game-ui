@@ -54,11 +54,11 @@ const SelectCharacter = ({ setCharacterNFT, contract, abi }) => {
       // Una vez que nuestro personaje NFT está acuñado, podemos obtener los metadatos de nuestro contrato
       // y configurarlo para pasar a la Arena.
       if (gameContract) {
-        setLoaderCard(true)
+        setLoader(true)
         const characterNFT = await gameContract.checkIfUserHasNFT()
         console.log('CharacterNFT: ', characterNFT)
         setCharacterNFT(transformCharacterData(characterNFT))
-        setLoaderCard(false)
+        setLoader(false)
       }
     }
 
@@ -79,10 +79,12 @@ const SelectCharacter = ({ setCharacterNFT, contract, abi }) => {
   const mintCharacterNFTAction = (characterId) => async () => {
     try {
       if (gameContract) {
+        setLoaderCard(true)
         console.log('Minting character in progress...')
         const mintTxn = await gameContract.mintCharacterNFT(characterId)
         await mintTxn.wait()
         console.log('mintTxn:', mintTxn)
+        setLoaderCard(false)
       }
     } catch (error) {
       console.warn('MintCharacterAction Error:', error)
