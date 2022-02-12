@@ -14,7 +14,7 @@ export const transformCharacterData = (characterData) => {
     hp: characterData.hp.toNumber(),
     maxHp: characterData.maxHp.toNumber(),
     attackDamage: characterData.attackDamage.toNumber(),
-    shield: characterData.shield.toNumber()
+    shield: characterData.shield ? characterData.shield.toNumber() : null
   }
 }
 

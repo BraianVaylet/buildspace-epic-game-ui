@@ -5,6 +5,7 @@ import { ethers } from 'ethers'
 import { Button, Flex, Text, Spinner, useToast, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, Link, Accordion, AccordionItem, AccordionButton, AccordionIcon, Box, AccordionPanel } from '@chakra-ui/react'
 import Layout from 'components/Layout'
 import SelectCharacter from 'components/SelectCharacter'
+import Arena from 'components/Arena'
 import CONTRACT, { transformCharacterData } from 'utils/constants'
 
 const CONTRACT_ADDRESS = CONTRACT.MY_EPIC_GAME.ADDRESS // > Nuestra direccion del contrato que desplegamos.
@@ -122,6 +123,7 @@ export default function Home () {
     )
 
     const txn = await gameContract.checkIfUserHasNFT()
+    console.log('txn', txn)
     if (txn.name) {
       console.log('User has character NFT')
       setCharacterNFT(transformCharacterData(txn))
@@ -168,6 +170,51 @@ export default function Home () {
       fetchNFTMetadata()
     }
   }, [currentAccount])
+
+  const renderViews = () => {
+    // Conecto Billetera
+    if (!currentAccount) {
+      return (
+        <Button
+          mt={10}
+          w={'30%'}
+          letterSpacing={1}
+          borderRadius={'md'}
+          bg={'gray.600'}
+          color={'white'}
+          boxShadow={'2xl'}
+          _hover={{
+            opacity: '.9',
+            cursor: 'pointer'
+          }}
+          onClick={connectWallet}
+          disabled={currentAccount}
+        >
+          {'Connect your Wallet'}
+        </Button>
+      )
+    } else {
+      if (currentAccount && !characterNFT) {
+        return (
+            <SelectCharacter
+              setCharacterNFT={setCharacterNFT}
+              contract={CONTRACT_ADDRESS}
+              abi={CONTRACT_ABI}
+            />
+        )
+      }
+
+      if (currentAccount && characterNFT) {
+        return (
+            <Arena
+              characterNFT={characterNFT}
+              contract={CONTRACT_ADDRESS}
+              abi={CONTRACT_ABI}
+            />
+        )
+      }
+    }
+  }
 
   return (
     <Layout
@@ -236,35 +283,7 @@ export default function Home () {
             </AccordionItem>
           </Accordion>
 
-          {/* Conectar billetera */}
-          {!currentAccount
-            ? (
-            <Button
-              mt={10}
-              w={'30%'}
-              letterSpacing={1}
-              borderRadius={'md'}
-              bg={'gray.600'}
-              color={'white'}
-              boxShadow={'2xl'}
-              _hover={{
-                opacity: '.9',
-                cursor: 'pointer'
-              }}
-              onClick={connectWallet}
-              disabled={currentAccount}
-            >
-              {'Connect your Wallet'}
-            </Button>
-              )
-            : currentAccount && !characterNFT && (
-              <SelectCharacter
-                setCharacterNFT={setCharacterNFT}
-                contract={CONTRACT_ADDRESS}
-                abi={CONTRACT_ABI}
-              />
-            )
-        }
+          {renderViews()}
         </Flex>
 
         {loader &&
