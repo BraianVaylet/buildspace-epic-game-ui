@@ -88,6 +88,7 @@ const SelectCharacter = ({ setCharacterNFT, contract, abi }) => {
       }
     } catch (error) {
       console.warn('MintCharacterAction Error:', error)
+      setLoaderCard(false)
     }
   }
 

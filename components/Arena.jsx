@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { transformBossData } from 'utils/constants'
-import { Button, Flex, Image, Progress, Text } from '@chakra-ui/react'
+import { Button, Flex, Image, Link, Progress, Text } from '@chakra-ui/react'
 
 const Arena = ({ characterNFT, contract, abi }) => {
   const [gameContract, setGameContract] = useState(null)
@@ -41,18 +41,30 @@ const Arena = ({ characterNFT, contract, abi }) => {
 
   const runAttackAction = async () => {
     try {
-      handlePower()
+      const bossPower = handleBossPower()
+      console.log('characterPower', characterPower)
+      console.log('bossPower', bossPower)
+      console.log('characterWinPower(characterPower, bossPower)', characterWinPower(characterPower, bossPower))
       if (gameContract && characterPower && bossPower) {
-        // if (characterPower !== bossPower) {
-        //   setAttackState('attacking')
-        //   console.log('Attacking boss...')
-        //   const attackTxn = await gameContract.attackBoss()
-        //   await attackTxn.wait()
-        //   console.log('attackTxn:', attackTxn)
-        //   setAttackState('hit')
-        // } else {
-        //   console.log('Empate!')
-        // }
+        if (characterPower !== bossPower) {
+          if (characterWinPower(characterPower, bossPower)) {
+            setAttackState('attacking')
+            console.log('Attacking boss...')
+            const attackTxn = await gameContract.attackBoss()
+            await attackTxn.wait()
+            console.log('attackTxn:', attackTxn)
+            setAttackState('hit')
+          } else {
+            setAttackState('attacking')
+            console.log('Attacking boss...')
+            const attackTxn = await gameContract.attackCharacter()
+            await attackTxn.wait()
+            console.log('attackTxn:', attackTxn)
+            setAttackState('hit')
+          }
+        } else {
+          console.log('Empate!')
+        }
       }
     } catch (error) {
       console.error('Error attacking boss:', error)
@@ -60,12 +72,33 @@ const Arena = ({ characterNFT, contract, abi }) => {
     }
   }
 
-  const handlePower = () => {
+  const characterWinPower = (character, boss) => {
+    if (character === '🔥') {
+      if (boss === '🔥') return null
+      if (boss === '💧') return false
+      if (boss === '🌿') return true
+    }
+
+    if (character === '💧') {
+      if (boss === '🔥') return true
+      if (boss === '💧') return null
+      if (boss === '🌿') return false
+    }
+
+    if (character === '🌿') {
+      if (boss === '🔥') return false
+      if (boss === '💧') return true
+      if (boss === '🌿') return null
+    }
+  }
+
+  const handleBossPower = () => {
     if (characterPower) {
       const randomPowerSelection = powers[Math.floor(Math.random() * (powers.length - 0))]
-      console.log('randomPowerSelection', randomPowerSelection)
       setBossPower(randomPowerSelection)
+      return randomPowerSelection
     }
+    return null
   }
 
   const restartAttack = () => {
