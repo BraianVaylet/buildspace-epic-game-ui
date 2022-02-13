@@ -1,16 +1,52 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ethers } from 'ethers'
 import { transformBossData } from 'utils/constants'
-import { Button, Flex, Image, Link, Progress, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Progress, Spinner, Text } from '@chakra-ui/react'
+
+import fire from 'public/fire.png'
+import water from 'public/water.png'
+import leaf from 'public/leaf.png'
+
+fire.name = '🔥'
+water.name = '💧'
+leaf.name = '🌿'
+
+const ATTACK_STATE = {
+  CHARACTER_ATTACK: {
+    status: 'CHARACTER_ATTACK',
+    message: 'Attacking the boss...',
+    animationClass: ''
+  },
+  BOSS_ATTACK: {
+    status: 'BOSS_ATTACK',
+    message: 'Attacking the player'
+  },
+  CHARACTER_HIT: {
+    status: 'CHARACTER_HIT',
+    message: 'Player hit!'
+  },
+  BOSS_HIT: {
+    status: 'BOSS_HIT',
+    message: 'Boss hit!'
+  },
+  NULL: {
+    status: null,
+    message: 'Loading...'
+  }
+}
 
 const Arena = ({ characterNFT, contract, abi }) => {
   const [gameContract, setGameContract] = useState(null)
   const [boss, setBoss] = useState(null)
-  const [attackState, setAttackState] = useState(null)
+  const [attackState, setAttackState] = useState(ATTACK_STATE.NULL)
   const [characterPower, setCharacterPower] = useState(null)
   const [bossPower, setBossPower] = useState(null)
-  const powers = ['🔥', '💧', '🌿']
+  const [showBossPower, setShowBossPower] = useState(false)
+  const [loader, setLoader] = useState(false)
+  const cardCharacterRef = useRef(null)
+  const cardBossRef = useRef(null)
+  const powers = [fire, water, leaf]
 
   useEffect(() => {
     const { ethereum } = window
@@ -41,34 +77,42 @@ const Arena = ({ characterNFT, contract, abi }) => {
 
   const runAttackAction = async () => {
     try {
+      // Seleccion de poder random del jefe.
       const bossPower = handleBossPower()
-      console.log('characterPower', characterPower)
-      console.log('bossPower', bossPower)
-      console.log('characterWinPower(characterPower, bossPower)', characterWinPower(characterPower, bossPower))
       if (gameContract && characterPower && bossPower) {
+        setLoader(true)
         if (characterPower !== bossPower) {
+          let attackTxn = null
           if (characterWinPower(characterPower, bossPower)) {
-            setAttackState('attacking')
+            setAttackState(ATTACK_STATE.CHARACTER_ATTACK)
             console.log('Attacking boss...')
-            const attackTxn = await gameContract.attackBoss()
-            await attackTxn.wait()
-            console.log('attackTxn:', attackTxn)
-            setAttackState('hit')
+            attackTxn = await gameContract.attackBoss()
           } else {
-            setAttackState('attacking')
-            console.log('Attacking boss...')
-            const attackTxn = await gameContract.attackCharacter()
-            await attackTxn.wait()
-            console.log('attackTxn:', attackTxn)
-            setAttackState('hit')
+            setAttackState(ATTACK_STATE.BOSS_ATTACK)
+            console.log('Attacking character...')
+            attackTxn = await gameContract.attackCharacter()
           }
+          await attackTxn.wait()
+          console.log('attackTxn:', attackTxn)
+          setShowBossPower(true)
+          setLoader(false)
+          setAttackState(
+            characterWinPower(characterPower, bossPower)
+              ? ATTACK_STATE.CHARACTER_HIT
+              : ATTACK_STATE.BOSS_HIT
+          )
         } else {
           console.log('Empate!')
+          setShowBossPower(true)
+          setAttackState(ATTACK_STATE.NULL)
+          setLoader(false)
         }
       }
     } catch (error) {
       console.error('Error attacking boss:', error)
-      setAttackState(null)
+      setShowBossPower(false)
+      setAttackState(ATTACK_STATE.NULL)
+      setLoader(false)
     }
   }
 
@@ -94,7 +138,7 @@ const Arena = ({ characterNFT, contract, abi }) => {
 
   const handleBossPower = () => {
     if (characterPower) {
-      const randomPowerSelection = powers[Math.floor(Math.random() * (powers.length - 0))]
+      const randomPowerSelection = powers[Math.floor(Math.random() * (powers.length - 0))].name
       setBossPower(randomPowerSelection)
       return randomPowerSelection
     }
@@ -106,12 +150,20 @@ const Arena = ({ characterNFT, contract, abi }) => {
       setBossPower(null)
       setCharacterPower(null)
       setAttackState(null)
+      setShowBossPower(false)
     }
   }
 
   const renderBtns = () => {
     if (!characterPower) {
-      return (<Text>Select a Power to attack!</Text>)
+      return (
+        <Button
+          w={'100%'}
+          disabled={true}
+        >
+          Select a Power to attack {boss.name}!
+        </Button>
+      )
     }
 
     if (characterPower !== bossPower) {
@@ -139,6 +191,14 @@ const Arena = ({ characterNFT, contract, abi }) => {
     }
   }
 
+  // Revisar
+  const animateComponent = (ref, animationName) => {
+    ref && ref.current && ref.current.classList.add('animate__animated', `animate__${animationName}`)
+    ref && ref.current && ref.current.addEventListener('animationend', () => {
+      ref.current.classList.remove('animate__animated', `animate__${animationName}`)
+    })
+  }
+
   return (
     <Flex
       direction={'column'}
@@ -154,8 +214,11 @@ const Arena = ({ characterNFT, contract, abi }) => {
         justify={'space-between'}
         w={'100%'}
       >
+        {/* // Card Character player */}
         {characterNFT && (
           <Flex
+            as={'div'}
+            ref={cardCharacterRef}
             direction={'column'}
             align={'center'}
             justify={'center'}
@@ -166,6 +229,10 @@ const Arena = ({ characterNFT, contract, abi }) => {
             mb={10}
             mx={2}
             position={'relative'}
+            style={{
+              animation: 'fadeInLeft',
+              animationDuration: '2s'
+            }}
           >
             <Image
               src={characterNFT.imageURI}
@@ -219,66 +286,108 @@ const Arena = ({ characterNFT, contract, abi }) => {
           w={'50%'}
           p={5}
         >
-          <Flex
-            w={'100%'}
-            align={'center'}
-            justify={'center'}
-            mb={10}
-          >
-            {renderBtns()}
-          </Flex>
-          <Flex
-            w={'100%'}
-            direction={'row'}
-            align={'center'}
-            justify={'space-between'}
-          >
-            <Flex
-              w={'25%'}
-              h={'100%'}
-              direction={'column'}
-              align={'flex-start'}
-            >
-              {powers.map(btn => (
-                <Button
-                  key={btn}
-                  variant={'outline'}
-                  isActive={characterPower === btn}
-                  onClick={() => setCharacterPower(btn)}
-                  w={10}
-                  h={10}
-                  mb={5}
+          {loader
+            ? (
+              <Flex
+                direction={'column'}
+                align={'center'}
+                justify={'center'}
+                w={'100%'}
+                mt={10}
+              >
+                <Spinner
+                  thickness='6px'
+                  speed='0.45s'
+                  emptyColor='blue.100'
+                  color='blue.500'
+                  size='xl'
+                />
+                <Text
+                  mt={2.5}
                 >
-                  {btn}
-                </Button>
-              ))}
-            </Flex>
+                  {attackState.message}
+                </Text>
+              </Flex>
+              )
+            : (
+                <Box
+                  style={{
+                    animation: 'fadeIn',
+                    animationDuration: '2s'
+                  }}
+                >
+                  <Flex
+                    w={'100%'}
+                    align={'center'}
+                    justify={'center'}
+                    mb={10}
+                  >
+                    {renderBtns()}
+                  </Flex>
+                  <Flex
+                    w={'100%'}
+                    direction={'row'}
+                    align={'center'}
+                    justify={'space-between'}
+                  >
+                    <Flex
+                      w={'25%'}
+                      h={'100%'}
+                      direction={'column'}
+                      align={'flex-start'}
+                    >
+                      {powers.map(btn => (
+                        <Button
+                          key={btn.name}
+                          variant={'outline'}
+                          isActive={characterPower === btn.name}
+                          onClick={() => setCharacterPower(btn.name)}
+                          boxSize={20}
+                          mb={5}
+                        >
+                          <Image
+                            src={btn.src}
+                            alt={btn.name}
+                            objectFit='cover'
+                          />
+                        </Button>
+                      ))}
+                    </Flex>
 
-            <Flex
-              w={'25%'}
-              h={'100%'}
-              direction={'column'}
-              align={'flex-end'}
-            >
-              {powers.map(btn => (
-                <Button
-                  key={btn}
-                  variant={'outline'}
-                  disabled={bossPower !== btn}
-                  filter={bossPower !== btn && 'grayscale(100%)'}
-                  w={10}
-                  h={10}
-                  mb={5}
-                >
-                  {btn}
-                </Button>
-              ))}
-            </Flex>
-          </Flex>
+                    <Flex
+                      w={'25%'}
+                      h={'100%'}
+                      direction={'column'}
+                      align={'flex-end'}
+                    >
+                      {powers.map(btn => (
+                        <Button
+                          key={btn.name}
+                          variant={'outline'}
+                          disabled={!showBossPower ? true : bossPower !== btn.name}
+                          filter={(!showBossPower || bossPower !== btn.name) && 'grayscale(100%)'}
+                          // filter={bossPower !== btn.name ? 'grayscale(100%)' : showBossPower && ''}
+                          boxSize={20}
+                          mb={5}
+                        >
+                          <Image
+                            src={btn.src}
+                            alt={btn.name}
+                            objectFit='cover'
+                          />
+                        </Button>
+                      ))}
+                    </Flex>
+                  </Flex>
+                </Box>
+              )
+            }
         </Flex>
 
+        {/* // Card Boss */}
         {boss && (
           <Flex
+            ref={cardBossRef}
             direction={'column'}
             align={'center'}
             justify={'center'}
@@ -289,6 +398,10 @@ const Arena = ({ characterNFT, contract, abi }) => {
             mb={10}
             mx={2}
             position={'relative'}
+            style={{
+              animation: 'fadeInRight',
+              animationDuration: '2s'
+            }}
           >
             <Image
               src={boss.imageURI}

@@ -1,7 +1,8 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable react/prop-types */
 import { ChakraProvider, ColorModeScript, CSSReset } from '@chakra-ui/react'
-import customTheme from '../styles/theme'
+import customTheme from 'styles/theme'
+import 'animate.css'
 
 function MyApp ({ Component }) {
   return (
