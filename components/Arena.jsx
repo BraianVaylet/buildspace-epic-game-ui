@@ -193,11 +193,17 @@ const Arena = ({ characterNFT, contract, abi }) => {
 
   // Revisar
   const animateComponent = (ref, animationName) => {
-    ref && ref.current && ref.current.classList.add('animate__animated', `animate__${animationName}`)
-    ref && ref.current && ref.current.addEventListener('animationend', () => {
-      ref.current.classList.remove('animate__animated', `animate__${animationName}`)
-    })
+    if (ref && ref.current) {
+      ref.current.classList.add('animate__animated', `animate__${animationName}`)
+      ref.current.addEventListener('animationend', () => {
+        ref.current.classList.remove('animate__animated', `animate__${animationName}`)
+      })
+    }
   }
+
+  useEffect(() => {
+    animateComponent(cardCharacterRef, 'wobble')
+  }, [characterPower])
 
   return (
     <Flex
@@ -216,69 +222,70 @@ const Arena = ({ characterNFT, contract, abi }) => {
       >
         {/* // Card Character player */}
         {characterNFT && (
-          <Flex
-            as={'div'}
-            ref={cardCharacterRef}
-            direction={'column'}
-            align={'center'}
-            justify={'center'}
-            w={'300px'}
-            borderRadius={10}
-            bgGradient='linear(to-r, blue.500, blue.700)'
-            p={3}
-            mb={10}
-            mx={2}
-            position={'relative'}
-            style={{
-              animation: 'fadeInLeft',
-              animationDuration: '2s'
-            }}
-          >
-            <Image
-              src={characterNFT.imageURI}
-              alt={characterNFT.name}
-              boxSize='100%'
-            />
+          <div ref={cardCharacterRef}>
             <Flex
-              justify={'space-between'}
-              w={'100%'}
-              py={0}
+              as={'div'}
+              direction={'column'}
+              align={'center'}
+              justify={'center'}
+              w={'300px'}
+              borderRadius={10}
+              bgGradient='linear(to-r, blue.500, blue.700)'
+              p={3}
+              mb={10}
+              mx={2}
+              position={'relative'}
+              style={{
+                animation: 'fadeInLeft',
+                animationDuration: '2s'
+              }}
             >
+              <Image
+                src={characterNFT.imageURI}
+                alt={characterNFT.name}
+                boxSize='100%'
+              />
               <Flex
-                direction={'column'}
-                align={'flex-start'}
-                justify={'flex-start'}
-                color={'white'}
+                justify={'space-between'}
                 w={'100%'}
+                py={0}
               >
                 <Flex
-                  align={'center'}
-                  justify={'center'}
+                  direction={'column'}
+                  align={'flex-start'}
+                  justify={'flex-start'}
+                  color={'white'}
                   w={'100%'}
-                  pb={3}
                 >
-                  <Text
-                    fontWeight={'bold'}
-                    letterSpacing={1}
-                    fontSize={'large'}
+                  <Flex
+                    align={'center'}
+                    justify={'center'}
+                    w={'100%'}
+                    pb={3}
                   >
-                    {characterNFT.name}
-                  </Text>
+                    <Text
+                      fontWeight={'bold'}
+                      letterSpacing={1}
+                      fontSize={'large'}
+                    >
+                      {characterNFT.name}
+                    </Text>
+                  </Flex>
+                  <Progress
+                    colorScheme={'red'}
+                    isAnimated
+                    value={characterNFT.hp}
+                    min={0}
+                    max={characterNFT.maxHp}
+                    w={'100%'}
+                  />
+                  <Text>❤ {characterNFT.hp}/{characterNFT.maxHp}</Text>
+                  <Text>⚔ {characterNFT.attackDamage}</Text>
+                  <Text>🛡 {characterNFT.shield}</Text>
                 </Flex>
-                <Progress
-                  colorScheme={'red'}
-                  isAnimated
-                  value={characterNFT.hp}
-                  min={0}
-                  max={characterNFT.maxHp}
-                  w={'100%'}
-                />
-                <Text>❤ {characterNFT.hp}/{characterNFT.maxHp}</Text>
-                <Text>⚔ {characterNFT.attackDamage}</Text>
-                <Text>🛡 {characterNFT.shield}</Text>
               </Flex>
             </Flex>
-          </Flex>
+          </div>
         )}
 
         <Flex
@@ -386,69 +393,70 @@ const Arena = ({ characterNFT, contract, abi }) => {
 
         {/* // Card Boss */}
         {boss && (
-          <Flex
-            ref={cardBossRef}
-            direction={'column'}
-            align={'center'}
-            justify={'center'}
-            w={'300px'}
-            borderRadius={10}
-            bgGradient='linear(to-r, gray.500, gray.700)'
-            p={3}
-            mb={10}
-            mx={2}
-            position={'relative'}
-            style={{
-              animation: 'fadeInRight',
-              animationDuration: '2s'
-            }}
-          >
-            <Image
-              src={boss.imageURI}
-              alt={boss.name}
-              boxSize='100%'
-            />
+          <div ref={cardBossRef}>
             <Flex
-              justify={'space-between'}
-              w={'100%'}
-              py={0}
+              direction={'column'}
+              align={'center'}
+              justify={'center'}
+              w={'300px'}
+              borderRadius={10}
+              bgGradient='linear(to-r, gray.500, gray.700)'
+              p={3}
+              mb={10}
+              mx={2}
+              position={'relative'}
+              style={{
+                animation: 'fadeInRight',
+                animationDuration: '2s'
+              }}
             >
+              <Image
+                src={boss.imageURI}
+                alt={boss.name}
+                boxSize='100%'
+              />
               <Flex
-                direction={'column'}
-                align={'flex-start'}
-                justify={'flex-start'}
-                color={'white'}
+                justify={'space-between'}
                 w={'100%'}
+                py={0}
               >
                 <Flex
-                  align={'center'}
-                  justify={'center'}
+                  direction={'column'}
+                  align={'flex-start'}
+                  justify={'flex-start'}
+                  color={'white'}
                   w={'100%'}
-                  pb={3}
                 >
-                  <Text
-                    fontWeight={'bold'}
-                    letterSpacing={1}
-                    fontSize={'large'}
+                  <Flex
+                    align={'center'}
+                    justify={'center'}
+                    w={'100%'}
+                    pb={3}
                   >
-                    {boss.name}
-                  </Text>
+                    <Text
+                      fontWeight={'bold'}
+                      letterSpacing={1}
+                      fontSize={'large'}
+                    >
+                      {boss.name}
+                    </Text>
 
+                  </Flex>
+                  <Progress
+                    colorScheme={'red'}
+                    isAnimated
+                    value={boss.hp}
+                    min={0}
+                    max={boss.maxHp}
+                    w={'100%'}
+                  />
+                  <Text>❤ {boss.hp}/{boss.maxHp}</Text>
+                  <Text>⚔ {boss.attackDamage}</Text>
+                  <Text>🛡 0</Text>
                 </Flex>
-                <Progress
-                  colorScheme={'red'}
-                  isAnimated
-                  value={boss.hp}
-                  min={0}
-                  max={boss.maxHp}
-                  w={'100%'}
-                />
-                <Text>❤ {boss.hp}/{boss.maxHp}</Text>
-                <Text>⚔ {boss.attackDamage}</Text>
-                <Text>🛡 0</Text>
               </Flex>
             </Flex>
-          </Flex>
+          </div>
         )}
         </Flex>
       }
