@@ -7,6 +7,7 @@ import { Box, Button, Flex, Image, Progress, Spinner, Text } from '@chakra-ui/re
 import fire from 'public/fire.png'
 import water from 'public/water.png'
 import leaf from 'public/leaf.png'
+import ArenaCard from './ArenaCard'
 
 fire.name = '🔥'
 water.name = '💧'
@@ -37,9 +38,9 @@ const ATTACK_STATE = {
 }
 
 const handleShadowColor = power => {
-  if (power === '🔥') return '#F56565'
-  if (power === '💧') return '#4299E1'
-  if (power === '🌿') return '#48BB78'
+  if (power === '🔥') return '0px 0px 10px 1px #E53E3E, 0px 0px 20px 0px #DD6B20, 0px 0px 30px 0px #FBD38D'
+  if (power === '💧') return '0px 0px 10px 1px #3182CE, 0px 0px 20px 0px #00B5D8, 0px 0px 30px 0px #76E4F7'
+  if (power === '🌿') return '0px 0px 10px 1px #38A169, 0px 0px 20px 0px #68D391, 0px 0px 30px 0px #9AE6B4'
 }
 
 const characterWinPower = (character, boss) => {
@@ -66,7 +67,6 @@ const animateComponent = (ref, animationName, animationDuration = '2s') => {
   if (ref && ref.current) {
     ref.current.classList.add('animate__animated', `${animationName}`)
     ref.current.style.setProperty('--animate-duration', `${animationDuration}`)
-
     ref.current.addEventListener('animationend', () => {
       ref.current.classList.remove('animate__animated', `${animationName}`)
     })
@@ -101,12 +101,13 @@ const Arena = ({ characterNFT, contract, abi }) => {
     }
   }, [])
 
+  const fetchBoss = async () => {
+    const bossTxn = await gameContract.getBigBoss()
+    console.log('Boss:', bossTxn)
+    setBoss(transformBossData(bossTxn))
+  }
+
   useEffect(() => {
-    const fetchBoss = async () => {
-      const bossTxn = await gameContract.getBigBoss()
-      console.log('Boss:', bossTxn)
-      setBoss(transformBossData(bossTxn))
-    }
     if (gameContract) {
       fetchBoss()
     }
@@ -115,7 +116,6 @@ const Arena = ({ characterNFT, contract, abi }) => {
   const runAttackAction = async () => {
     try {
       // Seleccion de poder random del jefe.
-      const bossPower = handleBossPower()
       if (gameContract && characterPower && bossPower) {
         setLoader(true)
         if (characterPower !== bossPower) {
@@ -138,12 +138,15 @@ const Arena = ({ characterNFT, contract, abi }) => {
               ? ATTACK_STATE.CHARACTER_HIT
               : ATTACK_STATE.BOSS_HIT
           )
+          if (gameContract) {
+            await fetchBoss()
+          }
         } else {
           console.log('Empate!')
-          setShowBossPower(true)
           setAttackState(ATTACK_STATE.NULL)
-          setLoader(false)
         }
+        setShowBossPower(true)
+        setLoader(false)
       }
     } catch (error) {
       console.error('Error attacking boss:', error)
@@ -212,14 +215,15 @@ const Arena = ({ characterNFT, contract, abi }) => {
     animateComponent(cardCharacterRef, 'animate__pulse', '0.3s')
     setAttackState(ATTACK_STATE.NULL)
     setShowBossPower(false)
+    handleBossPower()
   }, [characterPower])
 
   useEffect(() => {
-    if (attackState === ATTACK_STATE.CHARACTER_HIT) {
+    if (attackState === ATTACK_STATE.BOSS_HIT) {
       animateComponent(cardBossRef, 'animate__bounceOutLeft', '1s')
       animateComponent(cardCharacterRef, 'animate__jello')
     }
-    if (attackState === ATTACK_STATE.BOSS_HIT) {
+    if (attackState === ATTACK_STATE.CHARACTER_HIT) {
       animateComponent(cardCharacterRef, 'animate__bounceOutRight', '1s')
       animateComponent(cardBossRef, 'animate__jello')
     }
@@ -233,83 +237,50 @@ const Arena = ({ characterNFT, contract, abi }) => {
       my={10}
       w={'100%'}
     >
+      <Flex
+        align={'center'}
+        justify={'center'}
+        w={'100%'}
+        py={10}
+      >
+        <Text
+          as={'h2'}
+          fontSize={'2xl'}
+          fontStyle={'italic'}
+          bgGradient={'linear(to-r, blue.300, blue.500)'}
+          bgClip='text'
+        >
+          {boss && characterNFT && boss.hp !== 0
+            ? attackState.status && attackState.message
+            : 'We defeated the boss!!! But do not relax, soon a new boss will be reborn'
+          }
+        </Text>
+      </Flex>
       {boss && characterNFT &&
         <Flex
-        direction={'row'}
-        align={'center'}
-        justify={'space-between'}
-        w={'100%'}
-      >
+          direction={'row'}
+          align={'center'}
+          justify={'space-between'}
+          w={'100%'}
+        >
         {/* // Card Character player */}
         {characterNFT && (
           <div ref={cardCharacterRef}>
-            <Flex
-              as={'div'}
-              direction={'column'}
-              align={'center'}
-              justify={'center'}
-              w={'300px'}
-              borderRadius={10}
+            <ArenaCard
+              data={characterNFT}
               bgGradient={
-                attackState === ATTACK_STATE.CHARACTER_HIT
-                  ? 'linear(to-r, red.500, red.700)'
-                  : 'linear(to-r, blue.500, blue.700)'
+                characterNFT.hp !== 0
+                  ? attackState === ATTACK_STATE.BOSS_HIT
+                    ? 'linear(to-r, red.400, red.600, red.800)'
+                    : 'linear(to-r, blue.400, blue.600, blue.800)'
+                  : 'linear(to-r, gray.400, gray.600, gray.400)'
               }
-              boxShadow={`0px 0px 30px 0px ${handleShadowColor(characterPower)}`}
-              p={3}
-              mb={10}
-              mx={2}
-              position={'relative'}
+              boxShadow={handleShadowColor(characterPower)}
               style={{
                 animation: 'slideInLeft',
                 animationDuration: '2s'
               }}
-            >
-              <Image
-                src={characterNFT.imageURI}
-                alt={characterNFT.name}
-                boxSize='100%'
-              />
-              <Flex
-                justify={'space-between'}
-                w={'100%'}
-                py={0}
-              >
-                <Flex
-                  direction={'column'}
-                  align={'flex-start'}
-                  justify={'flex-start'}
-                  color={'white'}
-                  w={'100%'}
-                >
-                  <Flex
-                    align={'center'}
-                    justify={'center'}
-                    w={'100%'}
-                    pb={3}
-                  >
-                    <Text
-                      fontWeight={'bold'}
-                      letterSpacing={1}
-                      fontSize={'large'}
-                    >
-                      {characterNFT.name}
-                    </Text>
-                  </Flex>
-                  <Progress
-                    colorScheme={'red'}
-                    isAnimated
-                    value={characterNFT.hp}
-                    min={0}
-                    max={characterNFT.maxHp}
-                    w={'100%'}
-                  />
-                  <Text>❤ {characterNFT.hp}/{characterNFT.maxHp}</Text>
-                  <Text>⚔ {characterNFT.attackDamage}</Text>
-                  <Text>🛡 {characterNFT.shield}</Text>
-                </Flex>
-              </Flex>
-            </Flex>
+            />
           </div>
         )}
 
@@ -337,11 +308,11 @@ const Arena = ({ characterNFT, contract, abi }) => {
                 <Text
                   mt={2.5}
                 >
-                  {attackState.message}
+                  Mining...
                 </Text>
               </Flex>
               )
-            : (
+            : boss.hp !== 0 && (
                 <Box
                   style={{
                     animation: 'fadeIn',
@@ -411,80 +382,28 @@ const Arena = ({ characterNFT, contract, abi }) => {
                     </Flex>
                   </Flex>
                 </Box>
-              )
+            )
             }
         </Flex>
 
         {/* // Card Boss */}
         {boss && (
           <div ref={cardBossRef}>
-            <Flex
-              direction={'column'}
-              align={'center'}
-              justify={'center'}
-              w={'300px'}
-              borderRadius={10}
+            <ArenaCard
+              data={boss}
               bgGradient={
-                attackState === ATTACK_STATE.BOSS_HIT
-                  ? 'linear(to-r, red.500, red.700)'
-                  : 'linear(to-r, gray.500, gray.700)'
+                boss.hp !== 0
+                  ? attackState === ATTACK_STATE.CHARACTER_HIT
+                    ? 'linear(to-r, red.400, red.600, red.800)'
+                    : 'linear(to-r, yellow.400, yellow.600, yellow.800)'
+                  : 'linear(to-r, gray.400, gray.600, gray.400)'
               }
               boxShadow={showBossPower && `0px 0px 30px 0px ${handleShadowColor(bossPower)}`}
-              p={3}
-              mb={10}
-              mx={2}
-              position={'relative'}
               style={{
                 animation: 'slideInRight',
                 animationDuration: '2s'
               }}
-            >
-              <Image
-                src={boss.imageURI}
-                alt={boss.name}
-                boxSize='100%'
-              />
-              <Flex
-                justify={'space-between'}
-                w={'100%'}
-                py={0}
-              >
-                <Flex
-                  direction={'column'}
-                  align={'flex-start'}
-                  justify={'flex-start'}
-                  color={'white'}
-                  w={'100%'}
-                >
-                  <Flex
-                    align={'center'}
-                    justify={'center'}
-                    w={'100%'}
-                    pb={3}
-                  >
-                    <Text
-                      fontWeight={'bold'}
-                      letterSpacing={1}
-                      fontSize={'large'}
-                    >
-                      {boss.name}
-                    </Text>
-
-                  </Flex>
-                  <Progress
-                    colorScheme={'red'}
-                    isAnimated
-                    value={boss.hp}
-                    min={0}
-                    max={boss.maxHp}
-                    w={'100%'}
-                  />
-                  <Text>❤ {boss.hp}/{boss.maxHp}</Text>
-                  <Text>⚔ {boss.attackDamage}</Text>
-                  <Text>🛡 0</Text>
-                </Flex>
-              </Flex>
-            </Flex>
+            />
           </div>
         )}
         </Flex>

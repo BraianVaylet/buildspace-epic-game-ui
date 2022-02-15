@@ -84,7 +84,7 @@ const Layout = ({ contract, head, chain, address, children }) => {
                 color: 'blue.100'
               }}
               as={Link}
-              href={'https://github.com/BraianVaylet/buildspace-epic-nfts-ui'}
+              href={'https://github.com/BraianVaylet/buildspace-epic-game-ui'}
               isExternal
               icon={<Icon as={FaGithub} w={7} h={7} />}
             />

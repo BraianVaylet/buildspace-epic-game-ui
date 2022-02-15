@@ -2,11 +2,12 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { ethers } from 'ethers'
-import { Button, Flex, Text, Spinner, useToast, Accordion, AccordionItem, AccordionButton, AccordionIcon, Box, AccordionPanel } from '@chakra-ui/react'
+import { Button, Flex, Text, Spinner, useToast, Accordion, AccordionItem, AccordionButton, AccordionIcon, Box, AccordionPanel, Image } from '@chakra-ui/react'
 import Layout from 'components/Layout'
 import SelectCharacter from 'components/SelectCharacter'
 import Arena from 'components/Arena'
 import CONTRACT, { transformCharacterData } from 'utils/constants'
+import powers from 'public/powers.png'
 
 const CONTRACT_ADDRESS = CONTRACT.MY_EPIC_GAME.ADDRESS // > Nuestra direccion del contrato que desplegamos.
 const CONTRACT_ABI = CONTRACT.MY_EPIC_GAME.ABI // > Nuestro abi del contrato
@@ -277,6 +278,25 @@ export default function Home () {
               </h2>
               <AccordionPanel pb={4}>
                 <Text fontSize={20}>Project info...</Text>
+              </AccordionPanel>
+            </AccordionItem>
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box flex='1' textAlign='left'>
+                    <Text
+                      as={'h2'}
+                      fontSize={30}
+                      fontWeight={'bold'}>
+                        Rules
+                    </Text>
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                <Text fontSize={20}>Rules info...</Text>
+                <Image src={powers.src} boxSize={10} />
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
