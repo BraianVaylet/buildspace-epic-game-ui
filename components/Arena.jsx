@@ -36,6 +36,43 @@ const ATTACK_STATE = {
   }
 }
 
+const handleShadowColor = power => {
+  if (power === '🔥') return '#F56565'
+  if (power === '💧') return '#4299E1'
+  if (power === '🌿') return '#48BB78'
+}
+
+const characterWinPower = (character, boss) => {
+  if (character === '🔥') {
+    if (boss === '🔥') return null
+    if (boss === '💧') return false
+    if (boss === '🌿') return true
+  }
+
+  if (character === '💧') {
+    if (boss === '🔥') return true
+    if (boss === '💧') return null
+    if (boss === '🌿') return false
+  }
+
+  if (character === '🌿') {
+    if (boss === '🔥') return false
+    if (boss === '💧') return true
+    if (boss === '🌿') return null
+  }
+}
+
+const animateComponent = (ref, animationName, animationDuration = '2s') => {
+  if (ref && ref.current) {
+    ref.current.classList.add('animate__animated', `${animationName}`)
+    ref.current.style.setProperty('--animate-duration', `${animationDuration}`)
+
+    ref.current.addEventListener('animationend', () => {
+      ref.current.classList.remove('animate__animated', `${animationName}`)
+    })
+  }
+}
+
 const Arena = ({ characterNFT, contract, abi }) => {
   const [gameContract, setGameContract] = useState(null)
   const [boss, setBoss] = useState(null)
@@ -116,26 +153,6 @@ const Arena = ({ characterNFT, contract, abi }) => {
     }
   }
 
-  const characterWinPower = (character, boss) => {
-    if (character === '🔥') {
-      if (boss === '🔥') return null
-      if (boss === '💧') return false
-      if (boss === '🌿') return true
-    }
-
-    if (character === '💧') {
-      if (boss === '🔥') return true
-      if (boss === '💧') return null
-      if (boss === '🌿') return false
-    }
-
-    if (character === '🌿') {
-      if (boss === '🔥') return false
-      if (boss === '💧') return true
-      if (boss === '🌿') return null
-    }
-  }
-
   const handleBossPower = () => {
     if (characterPower) {
       const randomPowerSelection = powers[Math.floor(Math.random() * (powers.length - 0))].name
@@ -149,7 +166,7 @@ const Arena = ({ characterNFT, contract, abi }) => {
     if (gameContract && characterPower && bossPower && (characterPower === bossPower)) {
       setBossPower(null)
       setCharacterPower(null)
-      setAttackState(null)
+      setAttackState(ATTACK_STATE.NULL)
       setShowBossPower(false)
     }
   }
@@ -191,19 +208,22 @@ const Arena = ({ characterNFT, contract, abi }) => {
     }
   }
 
-  // Revisar
-  const animateComponent = (ref, animationName) => {
-    if (ref && ref.current) {
-      ref.current.classList.add('animate__animated', `animate__${animationName}`)
-      ref.current.addEventListener('animationend', () => {
-        ref.current.classList.remove('animate__animated', `animate__${animationName}`)
-      })
-    }
-  }
+  useEffect(() => {
+    animateComponent(cardCharacterRef, 'animate__pulse', '0.3s')
+    setAttackState(ATTACK_STATE.NULL)
+    setShowBossPower(false)
+  }, [characterPower])
 
   useEffect(() => {
-    animateComponent(cardCharacterRef, 'wobble')
-  }, [characterPower])
+    if (attackState === ATTACK_STATE.CHARACTER_HIT) {
+      animateComponent(cardBossRef, 'animate__bounceOutLeft', '1s')
+      animateComponent(cardCharacterRef, 'animate__jello')
+    }
+    if (attackState === ATTACK_STATE.BOSS_HIT) {
+      animateComponent(cardCharacterRef, 'animate__bounceOutRight', '1s')
+      animateComponent(cardBossRef, 'animate__jello')
+    }
+  }, [attackState])
 
   return (
     <Flex
@@ -230,13 +250,18 @@ const Arena = ({ characterNFT, contract, abi }) => {
               justify={'center'}
               w={'300px'}
               borderRadius={10}
-              bgGradient='linear(to-r, blue.500, blue.700)'
+              bgGradient={
+                attackState === ATTACK_STATE.CHARACTER_HIT
+                  ? 'linear(to-r, red.500, red.700)'
+                  : 'linear(to-r, blue.500, blue.700)'
+              }
+              boxShadow={`0px 0px 30px 0px ${handleShadowColor(characterPower)}`}
               p={3}
               mb={10}
               mx={2}
               position={'relative'}
               style={{
-                animation: 'fadeInLeft',
+                animation: 'slideInLeft',
                 animationDuration: '2s'
               }}
             >
@@ -373,7 +398,6 @@ const Arena = ({ characterNFT, contract, abi }) => {
                           variant={'outline'}
                           disabled={!showBossPower ? true : bossPower !== btn.name}
                           filter={(!showBossPower || bossPower !== btn.name) && 'grayscale(100%)'}
-                          // filter={bossPower !== btn.name ? 'grayscale(100%)' : showBossPower && ''}
                           boxSize={20}
                           mb={5}
                         >
@@ -400,13 +424,18 @@ const Arena = ({ characterNFT, contract, abi }) => {
               justify={'center'}
               w={'300px'}
               borderRadius={10}
-              bgGradient='linear(to-r, gray.500, gray.700)'
+              bgGradient={
+                attackState === ATTACK_STATE.BOSS_HIT
+                  ? 'linear(to-r, red.500, red.700)'
+                  : 'linear(to-r, gray.500, gray.700)'
+              }
+              boxShadow={showBossPower && `0px 0px 30px 0px ${handleShadowColor(bossPower)}`}
               p={3}
               mb={10}
               mx={2}
               position={'relative'}
               style={{
-                animation: 'fadeInRight',
+                animation: 'slideInRight',
                 animationDuration: '2s'
               }}
             >
