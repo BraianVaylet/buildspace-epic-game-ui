@@ -78,6 +78,7 @@ const Arena = ({ contract, abi }) => {
   const [gameContract, setGameContract] = useState(null)
   const [boss, setBoss] = useState(null)
   const [attackState, setAttackState] = useState(ATTACK_STATE.NULL)
+  const [showAttackState, setShowAttackState] = useState(false)
   const [characterPower, setCharacterPower] = useState(null)
   const [bossPower, setBossPower] = useState(null)
   const [showBossPower, setShowBossPower] = useState(false)
@@ -139,6 +140,7 @@ const Arena = ({ contract, abi }) => {
       // Seleccion de poder random del jefe.
       if (gameContract && characterPower && bossPower) {
         setLoader(true)
+        setShowAttackState(false)
         if (characterPower !== bossPower) {
           let attackTxn = null
           if (characterWinPower(characterPower, bossPower)) {
@@ -150,6 +152,7 @@ const Arena = ({ contract, abi }) => {
             console.log('Attacking character...')
             attackTxn = await gameContract.attackCharacter()
           }
+          setShowAttackState(true)
           await attackTxn.wait()
           console.log('attackTxn:', attackTxn)
           setShowBossPower(true)
@@ -273,7 +276,7 @@ const Arena = ({ contract, abi }) => {
           bgClip='text'
         >
           {boss && characterNFT && boss.hp !== 0
-            ? attackState.status && attackState.message
+            ? showAttackState && attackState.status && attackState.message
             : 'We defeated the boss!!! But do not relax, soon a new boss will be reborn'
           }
         </Text>
@@ -330,7 +333,7 @@ const Arena = ({ contract, abi }) => {
                 <Text
                   mt={2.5}
                 >
-                  Mining...
+                  {showAttackState ? 'Waiting for the attack...' : 'Loading...'}
                 </Text>
               </Flex>
               )
