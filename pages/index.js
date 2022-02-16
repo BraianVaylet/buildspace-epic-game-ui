@@ -131,32 +131,6 @@ export default function Home () {
     }
   }
 
-  // > Funcion que permite escuchar los eventos del contrato.
-  // const setupEventListener = async () => {
-  //   try {
-  //     const { ethereum } = window
-
-  //     if (ethereum) {
-  //       const provider = new ethers.providers.Web3Provider(ethereum)
-  //       const signer = provider.getSigner()
-  //       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT.MY_EPIC_GAME.ABI, signer)
-
-  //       // > Capturo el evento
-  //       connectedContract.on('NewEpicNFTMinted', (from, tokenId) => {
-  //         setNewTokenId(tokenId.toNumber())
-  //         onOpen()
-  //         getCurrentTotalEpicNFTs()
-  //         console.log(from, tokenId.toNumber())
-  //       })
-  //       console.log('Setup event listener!')
-  //     } else {
-  //       console.log("Ethereum object doesn't exist!")
-  //     }
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
   useEffect(() => {
     checkNetwork()
     checkIfWalletIsConnected()
@@ -261,7 +235,7 @@ export default function Home () {
             Welcome to Epic Game 🧙‍♂️
           </Text>
 
-          <Accordion w={'100%'} defaultIndex={[0]} allowMultiple>
+          <Accordion w={'100%'}>
             <AccordionItem>
               <h2>
                 <AccordionButton>

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useRef, useState } from 'react'
 import { ethers } from 'ethers'
-import { transformBossData } from 'utils/constants'
+import { transformBossData, transformCharacterData } from 'utils/constants'
 import { Box, Button, Flex, Image, Spinner, Text } from '@chakra-ui/react'
 
 import fire from 'public/fire.png'
@@ -73,7 +73,8 @@ const animateComponent = (ref, animationName, animationDuration = '2s') => {
   }
 }
 
-const Arena = ({ characterNFT, contract, abi }) => {
+const Arena = ({ contract, abi }) => {
+  const [characterNFT, setCharacterNFT] = useState(null)
   const [gameContract, setGameContract] = useState(null)
   const [boss, setBoss] = useState(null)
   const [attackState, setAttackState] = useState(ATTACK_STATE.NULL)
@@ -101,6 +102,25 @@ const Arena = ({ characterNFT, contract, abi }) => {
     }
   }, [])
 
+  const fetchNFTMetadata = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const gameContract = new ethers.Contract(
+      contract,
+      abi,
+      signer
+    )
+
+    const txn = await gameContract.checkIfUserHasNFT()
+    console.log('txn', txn)
+    if (txn.name) {
+      console.log('User has character NFT')
+      setCharacterNFT(transformCharacterData(txn))
+    } else {
+      console.log('No character NFT found')
+    }
+  }
+
   const fetchBoss = async () => {
     const bossTxn = await gameContract.getBigBoss()
     console.log('Boss:', bossTxn)
@@ -110,6 +130,7 @@ const Arena = ({ characterNFT, contract, abi }) => {
   useEffect(() => {
     if (gameContract) {
       fetchBoss()
+      fetchNFTMetadata()
     }
   }, [gameContract])
 
@@ -140,6 +161,7 @@ const Arena = ({ characterNFT, contract, abi }) => {
           )
           if (gameContract) {
             await fetchBoss()
+            await fetchNFTMetadata()
           }
         } else {
           console.log('Empate!')
