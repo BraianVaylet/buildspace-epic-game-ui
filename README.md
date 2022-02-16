@@ -28,7 +28,7 @@ Las reglas del juego son bastante simple, cada personaje cuenta con tres atribut
 | ⚔ |  daño al atacar |
 | 🛡 |  defensa |
 
-Les presento a los personajes de esta saga:
+Les presento a los personajes de esta saga: (los personajes fueron creados en [Hero Forge](https://www.heroforge.com/))
 
 <table>
    <tr>
