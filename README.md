@@ -28,25 +28,358 @@ Las reglas del juego son bastante simple, cada personaje cuenta con tres atribut
 | ⚔ |  daño al atacar |
 | 🛡 |  defensa |
 
+Les presento a los personajes de esta saga:
+
+<div id="characters">
+   <div>
+      <img
+         align="center"
+         width="250"
+         src="https://i.imgur.com/FJ5lUgJ.png"
+      />
+      <table width="250" border="1px solid black">
+         <tr>
+            <th>Atributo</th>
+            <th>Descripción</th>
+         </tr>
+         <tr>
+            <td>❤</td>
+            <td>1500</td>
+         </tr>
+         <tr>
+            <td>⚔</td>
+            <td>150</td>
+         </tr>
+         <tr>
+            <td>🛡</td>
+            <td>50</td>
+         </tr>
+      </table>
+   </div>
+
+   <div>
+      <img
+         align="center"
+         width="250"
+         src="https://i.imgur.com/CmYArzl.png"
+      />
+      <table width="250" border="1px solid black">
+         <tr>
+            <th>Atributo</th>
+            <th>Descripción</th>
+         </tr>
+         <tr>
+            <td>❤</td>
+            <td>1500</td>
+         </tr>
+         <tr>
+            <td>⚔</td>
+            <td>150</td>
+         </tr>
+         <tr>
+            <td>🛡</td>
+            <td>50</td>
+         </tr>
+      </table>
+   </div>
+
+   <div>
+      <img
+         align="center"
+         width="250"
+         src="https://i.imgur.com/BvpPiRE.png"
+      />
+      <table width="250" border="1px solid black">
+         <tr>
+            <th>Atributo</th>
+            <th>Descripción</th>
+         </tr>
+         <tr>
+            <td>❤</td>
+            <td>1500</td>
+         </tr>
+         <tr>
+            <td>⚔</td>
+            <td>200</td>
+         </tr>
+         <tr>
+            <td>🛡</td>
+            <td>0</td>
+         </tr>
+      </table>
+   </div>
+
+   <div>
+      <img
+         align="center"
+         width="250"
+         src="https://i.imgur.com/3XGEHQh.png"
+      />
+      <table width="250" border="1px solid black">
+         <tr>
+            <th>Atributo</th>
+            <th>Descripción</th>
+         </tr>
+         <tr>
+            <td>❤</td>
+            <td>1500</td>
+         </tr>
+         <tr>
+            <td>⚔</td>
+            <td>100</td>
+         </tr>
+         <tr>
+            <td>🛡</td>
+            <td>100</td>
+         </tr>
+      </table>
+   </div>
+
+   <div>
+      <img
+         align="center"
+         width="250"
+         src="https://i.imgur.com/v0W6GOD.png"
+      />
+      <table width="250" border="1px solid black">
+         <tr>
+            <th>Atributo</th>
+            <th>Descripción</th>
+         </tr>
+         <tr>
+            <td>❤</td>
+            <td>1500</td>
+         </tr>
+         <tr>
+            <td>⚔</td>
+            <td>50</td>
+         </tr>
+         <tr>
+            <td>🛡</td>
+            <td>150</td>
+         </tr>
+      </table>
+   </div>
+
+   <div>
+      <img
+         align="center"
+         width="250"
+         src="https://i.imgur.com/Ld5Ra2j.png"
+      />
+      <table width="250" border="1px solid black">
+         <tr>
+            <th>Atributo</th>
+            <th>Descripción</th>
+         </tr>
+         <tr>
+            <td>❤</td>
+            <td>1500</td>
+         </tr>
+         <tr>
+            <td>⚔</td>
+            <td>100</td>
+         </tr>
+         <tr>
+            <td>🛡</td>
+            <td>100</td>
+         </tr>
+      </table>
+   </div>
+
+   <div>
+      <img
+         align="center"
+         width="250"
+         src="https://i.imgur.com/Sqa43qp.png"
+      />
+      <table width="250" border="1px solid black">
+         <tr>
+            <th>Atributo</th>
+            <th>Descripción</th>
+         </tr>
+         <tr>
+            <td>❤</td>
+            <td>1500</td>
+         </tr>
+         <tr>
+            <td>⚔</td>
+            <td>50</td>
+         </tr>
+         <tr>
+            <td>🛡</td>
+            <td>150</td>
+         </tr>
+      </table>
+   </div>
+
+   <div>
+      <img
+         align="center"
+         width="250"
+         src="https://i.imgur.com/L2QcAbi.png"
+      />
+      <table width="250" border="1px solid black">
+         <tr>
+            <th>Atributo</th>
+            <th>Descripción</th>
+         </tr>
+         <tr>
+            <td>❤</td>
+            <td>1500</td>
+         </tr>
+         <tr>
+            <td>⚔</td>
+            <td>150</td>
+         </tr>
+         <tr>
+            <td>🛡</td>
+            <td>50</td>
+         </tr>
+      </table>
+   </div>
+
+   <div>
+      <img
+         align="center"
+         width="250"
+         src="https://i.imgur.com/2fC9ewH.png"
+      />
+      <table width="250" border="1px solid black">
+         <tr>
+            <th>Atributo</th>
+            <th>Descripción</th>
+         </tr>
+         <tr>
+            <td>❤</td>
+            <td>1500</td>
+         </tr>
+         <tr>
+            <td>⚔</td>
+            <td>100</td>
+         </tr>
+         <tr>
+            <td>🛡</td>
+            <td>100</td>
+         </tr>
+      </table>
+   </div>
+
+   <div>
+      <img
+         align="center"
+         width="250"
+         src="https://i.imgur.com/pn0iaKf.png"
+      />
+      <table width="250" border="1px solid black">
+         <tr>
+            <th>Atributo</th>
+            <th>Descripción</th>
+         </tr>
+         <tr>
+            <td>❤</td>
+            <td>1500</td>
+         </tr>
+         <tr>
+            <td>⚔</td>
+            <td>50</td>
+         </tr>
+         <tr>
+            <td>🛡</td>
+            <td>150</td>
+         </tr>
+      </table>
+   </div>
+
+   <div>
+      <img
+         align="center"
+         width="250"
+         src="https://i.imgur.com/zT8ObmD.png"
+      />
+      <table width="250" border="1px solid black">
+         <tr>
+            <th>Atributo</th>
+            <th>Descripción</th>
+         </tr>
+         <tr>
+            <td>❤</td>
+            <td>1500</td>
+         </tr>
+         <tr>
+            <td>⚔</td>
+            <td>150</td>
+         </tr>
+         <tr>
+            <td>🛡</td>
+            <td>50</td>
+         </tr>
+      </table>
+   </div>
+
+   <div>
+      <img
+         align="center"
+         width="250"
+         src="https://i.imgur.com/eyG6FgJ.png"
+      />
+      <table width="250" border="1px solid black">
+         <tr>
+            <th>Atributo</th>
+            <th>Descripción</th>
+         </tr>
+         <tr>
+            <td>❤</td>
+            <td>1500</td>
+         </tr>
+         <tr>
+            <td>⚔</td>
+            <td>50</td>
+         </tr>
+         <tr>
+            <td>🛡</td>
+            <td>150</td>
+         </tr>
+      </table>
+   </div>
+
+</div>
+
 Ten en cuenta que la defensa es un bonus que tu personaje tiene ya que el jefe no cuenta con ese privilegio, aunque si vemos sus puntos de hp estamos ante un enemigo muy difícil de derribar.
 
 Les presento al primer jefe de esta saga, se trata de Big Kangh.
 
-<p width="400">
-   <img align="center" width="250" src="https://i.imgur.com/jBQ57F5.png" />
-</p>
-
-| Atributo | Descripción |
-| -- | -- |
-| ❤ | hp del personaje |
-| ⚔ |  daño al atacar |
+<div>
+   <img
+      align="center"
+      width="250"
+      src="https://i.imgur.com/jBQ57F5.png"
+   />
+   <table width="250" border="1px solid black">
+      <tr>
+         <th>Atributo</th>
+         <th>Descripción</th>
+      </tr>
+      <tr>
+         <td>❤</td>
+         <td>120000</td>
+      </tr>
+      <tr>
+         <td>⚔</td>
+         <td>200</td>
+      </tr>
+      <tr>
+         <td>🛡</td>
+         <td>0</td>
+      </tr>
+   </table>
+</div>
 
 Para atacar al jefe primero necesitas escoger un poder, puedes seleccionar uno de estos tres: 🔥 fuego, 💧 agua y 🌿 vegetación. Cada uno de ellos es bueno contra 1 pero débil contra otro.
 
-<p width="400" align="center">
+<p width="400">
    <img align="center" width="250" src="https://raw.githubusercontent.com/BraianVaylet/buildspace-epic-game-ui/main/public/powers.png" />
 </p>
-
 
 Cada vez que seleccionamos un poder y atacamos al jefe el jefe también seleccionará uno de ellos, el ganador tendrá la posibilidad de atacar y causarle daño al otro.
 
