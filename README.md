@@ -33,7 +33,7 @@ Ten en cuenta que la defensa es un bonus que tu personaje tiene ya que el jefe n
 Les presento al primer jefe de esta saga, se trata de Big Kangh.
 
 <p width="400">
-   <img align="center" width="200" src="https://i.imgur.com/jBQ57F5.png" />
+   <img align="center" width="250" src="https://i.imgur.com/jBQ57F5.png" />
 </p>
 
 | Atributo | Descripción |
