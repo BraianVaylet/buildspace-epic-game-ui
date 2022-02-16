@@ -235,7 +235,7 @@ export default function Home () {
             Welcome to Epic Game 🧙‍♂️
           </Text>
 
-          <Accordion w={'100%'}>
+          <Accordion w={'100%'} allowMultiple>
             <AccordionItem>
               <h2>
                 <AccordionButton>
