@@ -32,7 +32,10 @@ Les presento a los personajes de esta saga:
 
 <table>
    <tr>
-      <td>
+      <td
+        align="center"
+        width="250"
+      >
          <img
             align="center"
             width="250"
