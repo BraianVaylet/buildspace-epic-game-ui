@@ -32,13 +32,10 @@ Les presento a los personajes de esta saga:
 
 <table>
    <tr>
-      <td
-        align="center"
-        width="250"
-      >
+      <td>
          <img
             align="center"
-            width="250"
+            width="200"
             src="https://i.imgur.com/FJ5lUgJ.png"
          />
          <table width="250" border="1px solid black">
