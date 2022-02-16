@@ -383,6 +383,16 @@ Recuerda que el jefe cuenta con mucho hp y tu personaje no, asi que invita a tus
 
 Este fue un proyecto con fin 100% académico mientras realizaba los cursos de la plataforma **[buildspace](https://buildspace.so/)**, la cual recomiendo a todo desarrollador que quiera comenzar a desarrollar para la web3.
 
+## Algunas capturas del proyecto:
+
+![screenshot#1](https://raw.githubusercontent.com/BraianVaylet/buildspace-epic-game-ui/main/screenshot/1.png)
+
+![screenshot#2](https://raw.githubusercontent.com/BraianVaylet/buildspace-epic-game-ui/main/screenshot/2.png)
+
+![screenshot#3](https://raw.githubusercontent.com/BraianVaylet/buildspace-epic-game-ui/main/screenshot/3.png)
+
+![screenshot#4](https://raw.githubusercontent.com/BraianVaylet/buildspace-epic-game-ui/main/screenshot/4.png)
+
 ---
 
 ### This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)
