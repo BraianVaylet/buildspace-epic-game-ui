@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ethers } from 'ethers'
 import { transformBossData } from 'utils/constants'
-import { Box, Button, Flex, Image, Progress, Spinner, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Spinner, Text } from '@chakra-ui/react'
 
 import fire from 'public/fire.png'
 import water from 'public/water.png'
