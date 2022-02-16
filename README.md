@@ -43,7 +43,10 @@ Les presento al primer jefe de esta saga, se trata de Big Kangh.
 
 Para atacar al jefe primero necesitas escoger un poder, puedes seleccionar uno de estos tres: 🔥 fuego, 💧 agua y 🌿 vegetación. Cada uno de ellos es bueno contra 1 pero débil contra otro.
 
-## IMAGEN Reglas
+<p width="400" align="center">
+   <img align="center" width="250" src="https://raw.githubusercontent.com/BraianVaylet/buildspace-epic-game-ui/main/public/powers.png" />
+</p>
+
 
 Cada vez que seleccionamos un poder y atacamos al jefe el jefe también seleccionará uno de ellos, el ganador tendrá la posibilidad de atacar y causarle daño al otro.
 
