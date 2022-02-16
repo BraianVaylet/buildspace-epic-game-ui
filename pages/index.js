@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { ethers } from 'ethers'
-import { Button, Flex, Text, Spinner, useToast, Accordion, AccordionItem, AccordionButton, AccordionIcon, Box, AccordionPanel, Image } from '@chakra-ui/react'
+import { Button, Flex, Text, Spinner, useToast, Accordion, AccordionItem, AccordionButton, AccordionIcon, Box, AccordionPanel, Image, Link } from '@chakra-ui/react'
 import Layout from 'components/Layout'
 import SelectCharacter from 'components/SelectCharacter'
 import Arena from 'components/Arena'
@@ -277,7 +277,11 @@ export default function Home () {
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={4}>
-                <Text fontSize={20}>Project info...</Text>
+                <Text mb={5} as={'p'} fontSize={20}>Epic Game 🧙‍♂️ is a small and simple NFT game made with React and Solidity. The UI is made with Next.js and ChakraUI while the smart-contract is developed using the HardHat framework.</Text>
+                <Text mb={5} as={'p'} fontSize={20}>To play it is necessary to have Metamask installed in your browser, be connected to the Rinkeby testnet and have test ETH to interact with the application.</Text>
+                <Text mb={5} as={'p'} fontSize={20}>You can obtain ETH in this <Link color={'blue.300'} href='https://faucets.chain.link/rinkeby' >link</Link></Text>
+                <Text mb={5} as={'p'} fontSize={20}>When you start the game you will need to choose a character, you can choose one of those listed on the platform (keep in mind that not all are the same, some differ in their attributes). For this you will need to mint your own NFT which you will use during the game… But be careful! You will only be able to mint a single NFT character with your wallet, you will not be able to reselect another one so choose carefully…</Text>
+                <Text mb={5} as={'p'} fontSize={20}>Once you have your character you can start playing, the objective is to defeat the leader, but it is unlikely that you can do it alone, so you will need to invite your friends to select their own characters and help you defeat him...</Text>
               </AccordionPanel>
             </AccordionItem>
             <AccordionItem>
@@ -294,9 +298,18 @@ export default function Home () {
                   <AccordionIcon />
                 </AccordionButton>
               </h2>
-              <AccordionPanel pb={4}>
-                <Text fontSize={20}>Rules info...</Text>
-                <Image src={powers.src} boxSize={10} />
+              <AccordionPanel pb={4} w={'100%'}>
+                  <Text mb={5} as={'p'} fontSize={20}>The rules of the game are quite simple, each character has three attributes, these are: ❤ the character's hp, ⚔ is the damage your character does when attacking and 🛡 which is the defense it has. Keep in mind that defense is a bonus that your character has since the boss does not have that privilege, although if we see his hp points we are facing an enemy that is very difficult to take down.</Text>
+                  <Text mb={5} as={'p'} fontSize={20}>To attack the boss you first need to choose a power, you can select one of these three: 🔥 fire, 💧 water and 🌿 vegetation. Each of them is good against 1 but weak against another.</Text>
+                  <Flex
+                    align={'center'}
+                    justify={'center'}
+                    w={'100%'}
+                    py={5}
+                  >
+                    <Image src={powers.src} boxSize={'xl'} alt={'rules'} />
+                  </Flex>
+                  <Text mb={5} as={'p'} fontSize={20}>Every time we select a power and attack the boss the boss will also select one of them, the winner will have the chance to attack and cause damage to the other.</Text>
               </AccordionPanel>
             </AccordionItem>
           </Accordion>

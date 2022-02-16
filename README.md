@@ -1,5 +1,5 @@
 <p align="center" width="200">
-   <img align="center" width="100" src="https://raw.githubusercontent.com/BraianVaylet/buildspace-epic-game-ui/main/public/wizard.png" />   
+   <img align="center" width="100" src="https://raw.githubusercontent.com/BraianVaylet/buildspace-epic-game-ui/main/public/wizard.png" />
 </p>
 
 # 🧙‍♂️ Epic Game [UI]
@@ -12,23 +12,48 @@ Este proyecto consume un smart-contract desarrollado en Solidity utilizando el f
 
 ### [REPO SMART-CONTRACT](https://github.com/BraianVaylet/buildspace-epic-game)
 
-## Sobre el proyecto:
+## Sobre el proyecto
 
-Proyecto web basado en la web3 desarrollado con **[Next.js](https://nextjs.org/)** y **[ChakraUI](https://chakra-ui.com/)**. En esta aplicación los usuarios podrán acuñar NFTs que será almacenado dentro de la blockchain, para esto es necesario primero autenticarse usando la wallet **[Metamask](https://metamask.io/)** y configurandola para usar la red de prueba de **[Rinkeby](https://www.rinkeby.io/#stats)**.
+Proyecto web basado en la web3 desarrollado con **[Next.js](https://nextjs.org/)** y **[ChakraUI](https://chakra-ui.com/)**. En esta aplicación los usuarios podrán jugar un pequeño juego donde tendrán que acuñar su propio personaje NFT el cual luego utilizarán para tratar de derrotar al jefe del junto a otros jugadores, toda el proceso será almacenado dentro de la blockchain.
 
-Los usuarios podrán mintear sus NFTs, para esto es necesario pagar la transacción usando ETH. Dado a que nos encontramos en la red de Rinkeby no estaremos usando ETH real, sino unos de prueba. Para cargarle saldo a tu wallet y así tener ETH para usar en la red de Rinkeby pueden usar el siguiente **[enlace](https://faucets.chain.link/rinkeby)**
+Para esto es necesario primero autenticarse usando la wallet **[Metamask](https://metamask.io/)** y configurandola para usar la red de prueba de **[Rinkeby](https://www.rinkeby.io/#stats)**.
 
-Cuando un usuario acuña un NFT obtendrá una palabra generada de forma aleatoria por otras 3, un animal, una profesión y un adjetivo (solo por diversión). Podrán acceder a sus NFTs desde cualquier aplicación como los son OpenSea o Rarible y poder comercializarlos desde ahí. (recordar que estamos en un ambiente de pruebas, el de Rinkeby)
+Los usuarios podrán mintear sus NFTs, para esto es necesario pagar la transacción usando ETH. Dado a que nos encontramos en la red de Rinkeby no estaremos usando ETH real, sino unos de prueba. Para cargarle saldo a tu wallet y así tener ETH para usar en la red de Rinkeby pueden usar el siguiente **[enlace](https://faucets.chain.link/rinkeby)**. También van a necesitar ETH para poder atacar al jefe.
+
+Las reglas del juego son bastante simple, cada personaje cuenta con tres atributos, estos son:
+
+| Atributo | Descripción |
+| -- | -- |
+| ❤ | hp del personaje |
+| ⚔ |  daño al atacar |
+| 🛡 |  defensa |
+
+Ten en cuenta que la defensa es un bonus que tu personaje tiene ya que el jefe no cuenta con ese privilegio, aunque si vemos sus puntos de hp estamos ante un enemigo muy difícil de derribar.
+
+Les presento al primer jefe de esta saga, se trata de Big Kangh.
+
+<p width="400">
+   <img align="center" width="200" src="https://i.imgur.com/jBQ57F5.png" />
+</p>
+
+| Atributo | Descripción |
+| -- | -- |
+| ❤ | hp del personaje |
+| ⚔ |  daño al atacar |
+
+Para atacar al jefe primero necesitas escoger un poder, puedes seleccionar uno de estos tres: 🔥 fuego, 💧 agua y 🌿 vegetación. Cada uno de ellos es bueno contra 1 pero débil contra otro.
+
+## IMAGEN Reglas
+
+Cada vez que seleccionamos un poder y atacamos al jefe el jefe también seleccionará uno de ellos, el ganador tendrá la posibilidad de atacar y causarle daño al otro.
+
+Recuerda que el jefe cuenta con mucho hp y tu personaje no, asi que invita a tus amigos para que entre todos puedan derrotarlo! 😁
 
 Este fue un proyecto con fin 100% académico mientras realizaba los cursos de la plataforma **[buildspace](https://buildspace.so/)**, la cual recomiendo a todo desarrollador que quiera comenzar a desarrollar para la web3.
 
-Pueden probar la aplicación ingresando al siguiente link: **[Epic NFTs](https://epic-nfts-ui-ten.vercel.app/)**
-
-La aplicación está conectándose a un smart-contract desarrollado con la tecnología **[Solidity](https://solidity-es.readthedocs.io/es/latest/#)**, pueden revisar su repo [aquí](https://github.com/BraianVaylet/buildspace-wave-portal)
-
 ---
 
-### This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)
 
 ## Getting Started
 
