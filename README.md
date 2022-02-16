@@ -60,7 +60,7 @@ Les presento a los personajes de esta saga:
       <td>
          <img
             align="center"
-            width="250"
+            width="200"
             src="https://i.imgur.com/CmYArzl.png"
          />
          <table width="250" border="1px solid black">
@@ -85,7 +85,7 @@ Les presento a los personajes de esta saga:
       <td>
          <img
             align="center"
-            width="250"
+            width="200"
             src="https://i.imgur.com/BvpPiRE.png"
          />
          <table width="250" border="1px solid black">
@@ -112,7 +112,7 @@ Les presento a los personajes de esta saga:
       <td>
          <img
             align="center"
-            width="250"
+            width="200"
             src="https://i.imgur.com/3XGEHQh.png"
          />
          <table width="250" border="1px solid black">
@@ -137,7 +137,7 @@ Les presento a los personajes de esta saga:
       <td>
          <img
             align="center"
-            width="250"
+            width="200"
             src="https://i.imgur.com/v0W6GOD.png"
          />
          <table width="250" border="1px solid black">
@@ -162,7 +162,7 @@ Les presento a los personajes de esta saga:
       <td>
          <img
             align="center"
-            width="250"
+            width="200"
             src="https://i.imgur.com/Ld5Ra2j.png"
          />
          <table width="250" border="1px solid black">
@@ -189,7 +189,7 @@ Les presento a los personajes de esta saga:
       <td>
          <img
             align="center"
-            width="250"
+            width="200"
             src="https://i.imgur.com/Sqa43qp.png"
          />
          <table width="250" border="1px solid black">
@@ -214,7 +214,7 @@ Les presento a los personajes de esta saga:
       <td>
          <img
             align="center"
-            width="250"
+            width="200"
             src="https://i.imgur.com/L2QcAbi.png"
          />
          <table width="250" border="1px solid black">
@@ -239,7 +239,7 @@ Les presento a los personajes de esta saga:
       <td>
          <img
             align="center"
-            width="250"
+            width="200"
             src="https://i.imgur.com/2fC9ewH.png"
          />
          <table width="250" border="1px solid black">
@@ -266,7 +266,7 @@ Les presento a los personajes de esta saga:
       <td>
          <img
             align="center"
-            width="250"
+            width="200"
             src="https://i.imgur.com/pn0iaKf.png"
          />
          <table width="250" border="1px solid black">
@@ -291,7 +291,7 @@ Les presento a los personajes de esta saga:
       <td>
          <img
             align="center"
-            width="250"
+            width="200"
             src="https://i.imgur.com/zT8ObmD.png"
          />
          <table width="250" border="1px solid black">
@@ -316,7 +316,7 @@ Les presento a los personajes de esta saga:
       <td>
          <img
             align="center"
-            width="250"
+            width="200"
             src="https://i.imgur.com/eyG6FgJ.png"
          />
          <table width="250" border="1px solid black">
@@ -348,7 +348,7 @@ Les presento al primer jefe de esta saga, se trata de Big Kangh.
 <div>
    <img
       align="center"
-      width="250"
+      width="200"
       src="https://i.imgur.com/jBQ57F5.png"
    />
    <table width="250" border="1px solid black">
