@@ -382,6 +382,8 @@ Recuerda que el jefe cuenta con mucho hp y tu personaje no, asi que invita a tus
 
 Este fue un proyecto con fin 100% académico mientras realizaba los cursos de la plataforma **[buildspace](https://buildspace.so/)**, la cual recomiendo a todo desarrollador que quiera comenzar a desarrollar para la web3.
 
+### [[NFT] CURSO COMPLETO](https://opensea.io/assets/matic/0x3CD266509D127d0Eac42f4474F57D0526804b44e/13284?force_update=true)
+
 ## Algunas capturas del proyecto:
 
 ![screenshot#1](https://raw.githubusercontent.com/BraianVaylet/buildspace-epic-game-ui/main/screenshot/1.png)
